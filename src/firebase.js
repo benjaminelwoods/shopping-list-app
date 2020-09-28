@@ -2,12 +2,15 @@ var firebase = require('firebase')
 
 var firebaseObj = {
   firebaseConfig: {
+
   },
-  getDb: function () {
+  init: function () {
+    // console.log('mean')
+    // firebase.initializeApp(this.firebaseConfig)
     const firebaseApp = firebase.initializeApp(firebaseObj.firebaseConfig)
-    const db = firebaseApp.firestore()
+    const db = firebaseApp.database()
     return db
   }
 }
 
-module.exports = firebaseObj.getDb()
+module.exports = firebaseObj.init()
