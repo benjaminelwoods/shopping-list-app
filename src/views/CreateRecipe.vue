@@ -1,39 +1,42 @@
 <template>
   <div v-if="isLoggedIn" class="create-recipe">
-      <!-- <div class=""></div> -->
-      <p>Image</p>
-      <input type="file">
+      <div class="">
+        <div class="img"></div>
+        <p>Image</p>
+        <input type="file">
+      </div>
+
       <p>Title</p>
-      <input type="text" placeholder="Title">
+      <input type="text" placeholder="Title" v-model="title">
       <p>Author</p>
-      <input type="text" placeholder="Author">
+      <input type="text" placeholder="Author" v-model="author">
       <p>Cooking Time</p>
-      <input type="number" placeholder="Cooking Time">
+      <input type="number" placeholder="Cooking Time" v-model="cookingTime">
       <p>Prep Time</p>
-      <input type="number" placeholder="Prep Time">
+      <input type="number" placeholder="Prep Time" v-model="prepTime">
       <p>Description</p>
-      <textarea cols="30" rows="10" placeholder="Description"></textarea>
+      <textarea cols="30" rows="10" placeholder="Description" v-model="description"></textarea>
       <p>Difficulty</p>
-      <input type="text" placeholder="Difficulty">
+      <input type="text" placeholder="Difficulty" v-model="difficulty">
       <p>Servings</p>
-      <input type="number" placeholder="Servings">
+      <input type="number" placeholder="Servings" v-model="servings">
       <p>Tags (Separate with "|")</p>
-      <input type="text" placeholder="Servings">
+      <input type="text" placeholder="Tags" v-model="tags">
 
       <div class="nutrition">
         <h3>Nutrition</h3>
         <p>Calories</p>
-        <input type="text" placeholder="Calories">
+        <input type="text" placeholder="Calories" v-model="nutrition.calores">
         <p>Carborhydrates</p>
-        <input type="text" placeholder="Carborhydrates">
+        <input type="text" placeholder="Carborhydrates" v-model="nutrition.carbs">
         <p>Fat</p>
-        <input type="text" placeholder="Fat">
+        <input type="text" placeholder="Fat" v-model="nutrition.fat">
         <p>Fibre</p>
-        <input type="text" placeholder="Fibre">
+        <input type="text" placeholder="Fibre" v-model="nutrition.fibre">
         <p>Protein</p>
-        <input type="text" placeholder="Protein">
+        <input type="text" placeholder="Protein" v-model="nutrition.protein">
         <p>Sugar</p>
-        <input type="text" placeholder="Sugar">
+        <input type="text" placeholder="Sugar" v-model="nutrition.sugar">
       </div>
 
       <div class="ingredients">
@@ -53,15 +56,18 @@
           <!-- <a>Add an Ingredient</a> -->
       </div>
 
+      <button @click="addRecipe">Save!</button>
+
   </div>
 </template>
 
 <script>
-// import firebase from 'firebase'
+import firebase from 'firebase'
 // import db from '../firebase.js'
 import checkLogin from '../checkLogin.js'
+var moment = require('moment')
 
-// const rdb = firebase.database()
+const rdb = firebase.database()
 
 export default {
   name: 'CreateRecipe',
@@ -71,7 +77,25 @@ export default {
       userEmail: '',
       userId: '',
       ingredients: [],
-      instructions: []
+      instructions: [],
+      author: '',
+      cookingTime: '',
+      description: '',
+      difficulty: '',
+      img: '',
+      notes: '',
+      nutrition: {
+        calores: '',
+        carbs: '',
+        fat: '',
+        fibre: '',
+        protein: '',
+        sugar: ''
+      },
+      prepTime: '',
+      servings: '',
+      tags: '',
+      title: ''
     }
   },
   created () {
@@ -108,25 +132,29 @@ export default {
       const value = e.target.parentElement.parentElement.parentElement.textContent
       this.instructions.splice(this.instructions.indexOf(value), 1)
     },
-    saveItems () {
-      // const saveBtn = document.getElementById('saveBtn')
-      // saveBtn.innerHTML = 'Saving...'
-      // const v = this
-      // const ref = rdb.ref('lists/' + 'benelwoods' + '/' + v.listName)
-      // var i
-      // // eslint-disable-next-line no-undef
-      // for (i = 0; i < v.afterItems.length; i++) {
-      //   // eslint-disable-next-line no-undef
-      //   ref.push(v.afterItems[i])
-      // }
-      // // console.log('done')
-      // v.maintainedItems = v.afterItems
-      // v.afterItems = []
-      // saveBtn.innerHTML = 'Saved!'
-      // setTimeout(function () {
-      //   saveBtn.innerHTML = 'Save'
-      // }, 2000)
-      // this.interval = setInterval(() => this.saveItems(), 120000)
+    addRecipe () {
+      const v = this
+      // const description = 'Celebrate the humble sprout with this insanely delicious recipe. Crisp cubes of apple provide beautiful sweetness, while sausage – and Worcestershire sauce (my secret ingredient) – gives a contrasting savoury kick. Serve straight from the pan or make ahead and crisp it all up in the oven on the big day – both ways work!'
+      const key = Math.round(Math.random() * (9999999999 - 20000) + 20000)
+      const ref = rdb.ref('recipes/' + 'benelwoods' + '/' + key)
+      ref.set({
+        title: v.title,
+        desc: v.description,
+        shortDesc: v.description.substring(0, 50),
+        img: v.img,
+        servings: v.servings,
+        prepTime: v.prepTime,
+        cookingTime: v.cookingTime,
+        difficulty: v.difficulty,
+        tags: v.tags,
+        nutrition: v.nutrition,
+        ingredients: v.ingredients,
+        instructions: v.instructions,
+        notes: v.notes,
+        key: key,
+        dateCreated: moment().format('MMMM Do YYYY')
+      })
+      console.log('done')
     },
     getListItems () {
     //   const v = this

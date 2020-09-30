@@ -320,8 +320,6 @@ export default {
         color: #383838;
         background-color: transparent !important;
       }
-    & > .inner {
-    }
   }
   & .instructions {
     text-align: left;
