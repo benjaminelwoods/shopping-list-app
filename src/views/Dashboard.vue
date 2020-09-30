@@ -31,7 +31,7 @@ export default {
       newItem: '',
       isLoggedIn: false,
       userEmail: '',
-      userId: '',
+      // userId: '',
       interval: ''
     }
   },
@@ -41,7 +41,7 @@ export default {
   },
   mounted () {
     // this.userEmail = this.$store.getters.getUserEmail
-    this.userId = this.$store.getters.getUserId
+    // this.userId = this.$store.getters.getUserName
     this.getListItems()
   },
   methods: {

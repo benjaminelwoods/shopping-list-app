@@ -10,11 +10,13 @@
         </div>
       </keep-alive>
       <button @click="saveItems" id="saveBtn">Save</button>
-      <div class="settings-btn"></div>
-      <div class="settings-modal">
+      <div class="settings-btn" @click="settingsToggle">
+        <i class="fas fa-cogs"></i>
+      </div>
+      <div class="settings-modal" v-bind:class="{isActive: settingsIsActive}">
         <div class="inner">
           <div class="head">
-            <i class="fas fa-arrow-left"></i>
+            <span @click="settingsToggle"><i class="fas fa-arrow-left"></i></span>
             <h3>List Settings</h3>
           </div>
           <div class="options">
@@ -47,7 +49,8 @@ export default {
       isLoggedIn: false,
       userEmail: '',
       userId: '',
-      interval: ''
+      interval: '',
+      settingsIsActive: false
     }
   },
   props: {
@@ -77,6 +80,14 @@ export default {
       } else {
         this.isLoggedIn = false
         this.$router.push('login')
+      }
+    },
+    settingsToggle () {
+      console.log('mean')
+      if (this.settingsIsActive === true) {
+        this.settingsIsActive = false
+      } else {
+        this.settingsIsActive = true
       }
     },
     saveItems () {
@@ -159,12 +170,18 @@ export default {
 <style scoped lang="scss">
 .settings-btn {
   position: absolute;
-  top: 18px;
+  top: 0px;
   right: 20px;
-  width: 20px;
-  height: 20px;
-  background: red;
+  width: 40px;
+  height: 7vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
+  & > svg {
+    color: #fff;
+    font-size: 28px;
+  }
 }
 
 .settings-modal {
@@ -175,10 +192,12 @@ export default {
   top: 0;
   left: 0;
   background: rgba(0,0,0,0.6);
-  display: flex;
   display: none;
   justify-content: center;
   align-items: center;
+  &.isActive {
+    display: flex;
+  }
   & > .inner {
     width: 80%;
     background:#344a5f;
@@ -191,6 +210,16 @@ export default {
       padding: 0 5%;
       & h3 {
         flex: 1;
+      }
+      & span {
+        height: 100%;
+        width: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        & > svg {
+          font-size: 22px;
+        }
       }
     }
   }

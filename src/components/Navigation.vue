@@ -16,6 +16,7 @@
             <li v-if="isLoggedIn" class="menu-item" @click="hamburger"><router-link to="/"><i class="fas fa-tachometer-alt"></i> Dashboard</router-link></li>
             <li v-if="isLoggedIn" class="menu-item" @click="hamburger"><router-link to="/lists"><i class="fas fa-list-ul"></i> Lists</router-link></li>
             <li v-if="isLoggedIn" class="menu-item" @click="hamburger"><router-link to="/meal-plans"><i class="fas fa-hamburger"></i> Meal Plans</router-link></li>
+            <li v-if="isLoggedIn" class="menu-item" @click="hamburger"><router-link to="/recipes"><i class="fas fa-carrot"></i> Recipes</router-link></li>
             <li v-if="isLoggedIn" class="menu-item" @click="hamburger"><router-link to="/budgets"><i class="fas fa-tag"></i> Budgets</router-link></li>
             <li v-if="isLoggedIn" class="menu-item" @click="hamburger"><router-link to="/settings"><i class="fas fa-cogs"></i> Settings</router-link></li>
         </ul>
@@ -33,8 +34,8 @@
 </template>
 
 <script>
-// import checkLogin from '../checkLogin.js'
-import anime from 'animejs/lib/anime.es.js'
+import checkLogin from '../checkLogin.js'
+// import anime from 'animejs/lib/anime.es.js'
 
 export default {
   name: 'Home',
@@ -55,20 +56,20 @@ export default {
     this.whichView(this.$route)
   },
   mounted () {
-    anime({
-      targets: 'li.menu-item',
-      translateX: '-200',
-      direction: 'forwards',
-      loop: false,
-      delay: function (el, i, l) {
-        return i * 100
-      },
-      endDelay: function (el, i, l) {
-        return (l - i) * 100
-      }
-    })
+    // anime({
+    //   targets: 'li.menu-item',
+    //   translateX: '-200',
+    //   direction: 'forwards',
+    //   loop: false,
+    //   delay: function (el, i, l) {
+    //     return i * 100
+    //   },
+    //   endDelay: function (el, i, l) {
+    //     return (l - i) * 100
+    //   }
+    // })
   },
-  updated () {
+  created () {
     this.checkLoggedIn()
   },
   watch: {
@@ -78,14 +79,12 @@ export default {
   },
   methods: {
     checkLoggedIn () {
-      // const a = checkLogin.checkLocalStorage()
-      const a = this.$store.getters.getLoggedIn
+      const a = checkLogin.checkLocalStorage()
       if (a === true) {
         this.isLoggedIn = true
-        this.isNotLoggedIn = false
       } else {
         this.isLoggedIn = false
-        this.isNotLoggedIn = true
+        this.$router.push('login')
       }
     },
     whichView (to) {
@@ -98,6 +97,14 @@ export default {
       } else if (to.name === 'MealPlans') {
         this.dashboard = false
         this.altMsg = 'Meal Plans'
+      } else if (to.name === 'RecipePreview') {
+        this.dashboard = false
+        const recipeName = this.$route.params.recipe.title
+        if (recipeName.length > 28) {
+          this.altMsg = recipeName.substring(0, 28) + '...'
+        } else {
+          this.altMsg = recipeName
+        }
       } else {
         this.dashboard = false
         this.altMsg = to.name
@@ -106,32 +113,32 @@ export default {
     hamburger () {
       if (this.hamActive === false) {
         this.hamActive = true
-        anime({
-          targets: 'li.menu-item',
-          translateX: 0,
-          direction: 'forwards',
-          loop: false,
-          delay: function (el, i, l) {
-            return i * 100
-          },
-          endDelay: function (el, i, l) {
-            return (l - i) * 100
-          }
-        })
+        // anime({
+        //   targets: 'li.menu-item',
+        //   translateX: 0,
+        //   direction: 'forwards',
+        //   loop: false,
+        //   delay: function (el, i, l) {
+        //     return i * 100
+        //   },
+        //   endDelay: function (el, i, l) {
+        //     return (l - i) * 100
+        //   }
+        // })
       } else {
         this.hamActive = false
-        anime({
-          targets: 'li.menu-item',
-          translateX: '-200',
-          direction: 'forwards',
-          loop: false,
-          delay: function (el, i, l) {
-            return i * 100
-          },
-          endDelay: function (el, i, l) {
-            return (l - i) * 100
-          }
-        })
+        // anime({
+        //   targets: 'li.menu-item',
+        //   translateX: '-200',
+        //   direction: 'forwards',
+        //   loop: false,
+        //   delay: function (el, i, l) {
+        //     return i * 100
+        //   },
+        //   endDelay: function (el, i, l) {
+        //     return (l - i) * 100
+        //   }
+        // })
       }
     },
     preLogout () {
@@ -362,7 +369,7 @@ nav.cont {
             }
         }
         & li {
-          transform: translateX(-100px);
+          // transform: translateX(-100px);
           list-style-type: none;
           & a {
               font-size: 20px;

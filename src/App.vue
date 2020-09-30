@@ -19,8 +19,8 @@ export default {
     Navigation
   },
   created () {
-    console.log(firebase)
-    console.log('working')
+    console.log(firebase + 'ignore me')
+    // console.log('working')
   }
 }
 </script>

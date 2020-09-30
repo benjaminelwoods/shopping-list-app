@@ -4,6 +4,7 @@
       <h1>Sorted.</h1>
       <div class="inputs">
         <p class="error" v-if="errorMessage">{{errorMessage}}</p>
+        <input type="text" name="Username" placeholder="Username" v-model="username">
         <input type="email" name="Email" placeholder="Email" v-model="userEmail">
         <input type="password" name="Password" placeholder="Password" v-model="userPw">
         <a class="btn btn-main" @click="login">Confirm <i class="fas fa-sign-in-alt"></i></a>
@@ -25,7 +26,8 @@ export default {
       userEmail: '',
       userPw: '',
       errorMessage: false,
-      loading: false
+      loading: false,
+      username: ''
     }
   },
   components: {
@@ -40,22 +42,13 @@ export default {
       const v = this
       if ((this.userPw !== '') || (this.userEmail !== '')) {
         firebase.auth().signInWithEmailAndPassword(v.userEmail, v.userPw).then(function () {
-        // db.collection('users').doc(v.userEmail).get().then(function (doc) {
-        //   localStorage.setItem('userFirstName', doc.data().firstName)
-        //   localStorage.setItem('userLastName', doc.data().lastName)
-        // }).then(function () {
-        //   localStorage.setItem('userEmail', v.userEmail)
-        //   localStorage.setItem('isLoggedIn', 'true')
-        //   v.$router.push('/')
-        // }).catch(function (error) {
-        //   v.errorMessage = error.message
-        // })
-          const ref = rdb.ref('users/' + 'benelwoods')
+          const ref = rdb.ref('users/' + v.username)
           ref.once('value', function (snapshot) {
             const src = snapshot.val()
             localStorage.setItem('userFirstName', src.firstName)
             localStorage.setItem('userLastName', src.lastName)
             localStorage.setItem('userEmail', src.email)
+            localStorage.setItem('username', src.username)
             localStorage.setItem('isLoggedIn', 'true')
             v.$router.push('/')
           }).catch(function (error) {

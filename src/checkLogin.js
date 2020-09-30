@@ -8,6 +8,7 @@ var storageObj = {
       store.default.commit('setUserFirstName', localStorage.getItem('userFirstName'))
       store.default.commit('setUserLastName', localStorage.getItem('userLastName'))
       store.default.commit('setUserEmail', localStorage.getItem('userEmail'))
+      store.default.commit('setUserName', localStorage.getItem('username'))
       return true
     } else {
       return false

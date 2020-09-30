@@ -8,6 +8,9 @@ import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
 import ListView from '../views/ListView.vue'
 import MealPlans from '../views/MealPlans.vue'
+import Recipes from '../views/Recipes.vue'
+import RecipePreview from '../views/RecipePreview.vue'
+import CreateRecipe from '../views/CreateRecipe.vue'
 
 Vue.use(VueRouter)
 
@@ -52,6 +55,24 @@ const routes = [
     path: '/meal-plans',
     name: 'MealPlans',
     component: MealPlans,
+    props: true
+  },
+  {
+    path: '/recipes',
+    name: 'Recipes',
+    component: Recipes,
+    props: true
+  },
+  {
+    path: '/recipe-preview',
+    name: 'RecipePreview',
+    component: RecipePreview,
+    props: true
+  },
+  {
+    path: '/create-recipe',
+    name: 'CreateRecipe',
+    component: CreateRecipe,
     props: true
   }
 ]

@@ -8,7 +8,8 @@ export default new Vuex.Store({
     userFirstName: '',
     userLastName: '',
     userEmail: '',
-    isLoggedIn: false
+    isLoggedIn: false,
+    username: ''
   },
   getters: {
     getUserFirstName: function (state) {
@@ -22,6 +23,9 @@ export default new Vuex.Store({
     },
     getLoggedIn: function (state) {
       return state.isLoggedIn
+    },
+    getUserName: function (state) {
+      return state.username
     }
   },
   mutations: {
@@ -36,6 +40,9 @@ export default new Vuex.Store({
     },
     setLoggedIn (state, payload) {
       state.isLoggedIn = payload
+    },
+    setUserName (state, payload) {
+      state.username = payload
     }
   }
 })
