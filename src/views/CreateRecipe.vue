@@ -1,6 +1,6 @@
 <template>
   <div v-if="isLoggedIn" class="create-recipe">
-      <div class="">
+      <div class="image">
         <div class="img"></div>
         <p>Image</p>
         <input type="file">
@@ -25,35 +25,44 @@
 
       <div class="nutrition">
         <h3>Nutrition</h3>
-        <p>Calories</p>
-        <input type="text" placeholder="Calories" v-model="nutrition.calores">
-        <p>Carborhydrates</p>
-        <input type="text" placeholder="Carborhydrates" v-model="nutrition.carbs">
-        <p>Fat</p>
-        <input type="text" placeholder="Fat" v-model="nutrition.fat">
-        <p>Fibre</p>
-        <input type="text" placeholder="Fibre" v-model="nutrition.fibre">
-        <p>Protein</p>
-        <input type="text" placeholder="Protein" v-model="nutrition.protein">
-        <p>Sugar</p>
-        <input type="text" placeholder="Sugar" v-model="nutrition.sugar">
+        <div class=""></div>
+        <div class="inner">
+          <p>Calories</p>
+          <input type="text" placeholder="Calories" v-model="nutrition.calories">
+        </div>
+        <div class="inner">
+          <p>Carbs</p>
+          <input type="text" placeholder="Carbs" v-model="nutrition.carbs">
+        </div>
+        <div class="inner">
+          <p>Fat</p>
+          <input type="text" placeholder="Fat" v-model="nutrition.fat">
+        </div>
+        <div class="inner">
+          <p>Fibre</p>
+          <input type="text" placeholder="Fibre" v-model="nutrition.fibre">
+        </div>
+        <div class="inner">
+          <p>Protein</p>
+          <input type="text" placeholder="Protein" v-model="nutrition.protein">
+        </div>
+        <div class="inner">
+          <p>Sugar</p>
+          <input type="text" placeholder="Sugar" v-model="nutrition.sugar">
+        </div>
       </div>
 
       <div class="ingredients">
-          <!-- <input type="text" placeholder="e.g. 1/2 Eggplant" v-for="(item, index) in ingredients" :key="`item-${(index + 1)}`"> -->
           <p v-for="(item, index) in ingredients" :key="`item-${(index + 1)}`">{{item}} <span @click="removeIngredient"><i class="fas fa-trash-alt"></i></span></p>
-          <input type="text" placeholder="e.g. 1/2 Eggplant" @blur="addIngredient($event)">
-          <!-- <a>Add an Ingredient</a> -->
+          <input type="text" placeholder="e.g. 1/2 Eggplant" @blur="addIngredient($event)" @keyup.enter="addIngredient($event)">
       </div>
       <div class="instructions">
-          <!-- <input type="text" placeholder="e.g. 1/2 Eggplant" v-for="(item, index) in ingredients" :key="`item-${(index + 1)}`"> -->
           <div v-for="(item, index) in instructions" :key="`item-${(index + 1)}`">
             <h5>{{(index + 1)}}</h5>
             <p>{{item}}</p>
             <span @click="removeInstruction"><i class="fas fa-trash-alt"></i></span>
           </div>
-          <textarea placeholder="e.g. Chop the eggplant into quarters" @blur="addInstruction($event)"></textarea>
-          <!-- <a>Add an Ingredient</a> -->
+          <textarea placeholder="e.g. Chop the eggplant into quarters" @blur="addInstruction($event)" @keyup.enter="addInstruction($event)"></textarea>
       </div>
 
       <button @click="addRecipe">Save!</button>
@@ -85,7 +94,7 @@ export default {
       img: '',
       notes: '',
       nutrition: {
-        calores: '',
+        calories: '',
         carbs: '',
         fat: '',
         fibre: '',
@@ -100,11 +109,6 @@ export default {
   },
   created () {
     this.checkLoggedIn()
-  },
-  mounted () {
-    // this.userEmail = this.$store.getters.getUserEmail
-    // this.userId = this.$store.getters.getUserId
-    this.getListItems()
   },
   methods: {
     checkLoggedIn () {
@@ -134,10 +138,10 @@ export default {
     },
     addRecipe () {
       const v = this
-      // const description = 'Celebrate the humble sprout with this insanely delicious recipe. Crisp cubes of apple provide beautiful sweetness, while sausage – and Worcestershire sauce (my secret ingredient) – gives a contrasting savoury kick. Serve straight from the pan or make ahead and crisp it all up in the oven on the big day – both ways work!'
       const key = Math.round(Math.random() * (9999999999 - 20000) + 20000)
-      const ref = rdb.ref('recipes/' + 'benelwoods' + '/' + key)
+      const ref = rdb.ref('recipes/' + 'all' + '/' + key)
       ref.set({
+        author: v.author,
         title: v.title,
         desc: v.description,
         shortDesc: v.description.substring(0, 50),
@@ -155,50 +159,6 @@ export default {
         dateCreated: moment().format('MMMM Do YYYY')
       })
       console.log('done')
-    },
-    getListItems () {
-    //   const v = this
-    //   const ref = rdb.ref('recipes/' + 'benelwoods' + '/' + v.recipeKey)
-    //   // console.log(ref)
-    //   var data = []
-    //   ref.once('value', function (snapshot) {
-    //     snapshot.forEach(function (childSnapshot) {
-    //       data.push(childSnapshot.val())
-    //     })
-    //   })
-    //   v.initialItems = data
-    //   console.log(v.initialItems)
-    },
-    addNewItem () {
-    //   const v = this
-    //   if ((v.newItem !== '') || (v.newItem !== undefined) || (v.newItem !== null)) {
-    //     // const randInt = function () {
-    //     //   return
-    //     // }
-    //     const item = {
-    //       content: v.newItem,
-    //       key: Math.round(Math.random() * (9999999999 - 20000) + 20000)
-    //     }
-    //     v.afterItems.push(item)
-    //     v.newItem = ''
-
-    //     // console.log(v.afterItems)
-    //   }
-    },
-    editItem (id, e) {
-      // const v = this
-      // db.collection('users').doc(v.userEmail).collection('lists').doc(id).update({
-      //   content: e.target.value
-      // }).then(function () {
-      //   // v.getListItems()
-      // })
-    },
-    removeItem (id) {
-      // const v = this
-      // db.collection('users').doc(v.userEmail).collection('lists').doc(id).delete().then(function () {
-      //   console.log('Document removed!')
-      //   v.getListItems()
-      // })
     }
   }
 }
@@ -210,8 +170,25 @@ export default {
   height: 93vh;
   overflow-y: scroll;
   overflow-x: hidden;
+  & .image {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    & .img {
+      background: red;
+      background-size: cover;
+      width: 100px;
+      height: 100px;
+      border-radius: 100px;
+    }
+  }
   & input {
-      background: #f2f2f2;
+      // background: #f2f2f2;
+      width: 100%;
+      border-bottom: 1px solid #000;
+      padding: 12px 15px;
+      font-size: 16px;
   }
 }
 </style>

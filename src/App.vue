@@ -44,6 +44,7 @@ html, body {
   text-align: center;
   color: #2c3e50;
   max-height: 100vh;
+  overflow: hidden;
 }
 
 input {

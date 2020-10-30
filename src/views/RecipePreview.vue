@@ -69,6 +69,12 @@
         <p>{{recipe.notes}}</p>
       </div>
     </div>
+      <div class="new-item-cont">
+        <div class="inner" @click="addToRecipes">
+          <span class="new-item"></span>
+          <h5>Add to Recipes</h5>
+        </div>
+      </div>
   </div>
 </template>
 
@@ -124,13 +130,9 @@ export default {
         this.$router.push('login')
       }
     },
-    settingsToggle () {
-      // console.log('mean')
-      // if (this.settingsIsActive === true) {
-      //   this.settingsIsActive = false
-      // } else {
-      //   this.settingsIsActive = true
-      // }
+    addToRecipes () {
+      const v = this
+      const ref = rdb.ref('users')
     },
     saveItems () {
       // const saveBtn = document.getElementById('saveBtn')
@@ -350,5 +352,66 @@ export default {
       }
     }
   }
+  & .new-item-cont {
+      width: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      bottom: 5%;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      & > .inner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 25px;
+        border: 1px solid #2c3e50;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: #2c3e50;
+        box-shadow: 10px 10px 30px rgba(0,0,0,0.3);
+        & > span.new-item::before, & > span.new-item::after {
+          background: #2c3e50;
+        }
+        &:hover {
+          background: #42b983;
+          border: 1px solid #42b983;
+          & > h5 {
+            color: #2c3e50;
+          }
+          & > span.new-item::before, & > span.new-item::after {
+            background: #2c3e50;
+          }
+        }
+        & h5 {
+          font-size: 16px;
+          margin: 0 0 0 -10px;
+          color: #fff;
+          transition: all 0.3s ease;
+        }
+        & span.new-item {
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          &::before, &::after {
+            content: "";
+            position: relative;
+            display: block;
+            background: #fff;
+            width: 20px;
+            height: 2px;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+          }
+          &::after {
+            left: -20px;
+            transform: rotate(90deg);
+          }
+        }
+      }
+    }
 }
 </style>

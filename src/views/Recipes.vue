@@ -20,10 +20,10 @@
       <span class="new-item"></span>
     </div>
 
-    <div class="recipe-selector">
+    <div class="recipe-selector" v-bind:class="{isActive: recipeSelector}">
       <div class="head">
         <h3 @click="addListToDb">Add Recipes</h3>
-        <i class="fas fa-times"></i>
+        <span @click="openRecipeSelector"><i class="fas fa-times"></i></span>
       </div>
       <div class="inner">
         <div v-for="item in recipesToAdd" :key="item.key" @click="recipePreview(item)">
@@ -48,7 +48,7 @@
 import rdb from '../firebase.js'
 import checkLogin from '../checkLogin.js'
 import Loading from '@/components/Loading.vue'
-var moment = require('moment')
+// var moment = require('moment')
 
 export default {
   name: 'Recipes',
@@ -85,7 +85,7 @@ export default {
     },
     getLists () {
       const v = this
-      const ref = rdb.ref('recipes/' + 'benelwoods')
+      const ref = rdb.ref('recipes/' + 'all')
       var data = []
       ref.once('value', function (snapshot) {
         snapshot.forEach(function (childSnapshot) {
@@ -134,49 +134,49 @@ export default {
       //   input.style.display = 'none'
       // }
       // const v = this
-      const description = 'Celebrate the humble sprout with this insanely delicious recipe. Crisp cubes of apple provide beautiful sweetness, while sausage – and Worcestershire sauce (my secret ingredient) – gives a contrasting savoury kick. Serve straight from the pan or make ahead and crisp it all up in the oven on the big day – both ways work!'
-      const key = Math.round(Math.random() * (9999999999 - 20000) + 20000)
-      const ref = rdb.ref('recipes/' + 'benelwoods' + '/' + key)
-      ref.set({
-        title: 'Best-ever Brussels sprouts',
-        desc: description,
-        shortDesc: description.substring(0, 50),
-        img: 'https://cafedelites.com/wp-content/uploads/2018/05/Honey-Garlic-Pork-Chops-IMAGE-54.jpg',
-        servings: 6,
-        prepTime: '',
-        cookingTime: 30,
-        difficulty: 'Not too tricky',
-        tags: 'Vegetable|Christmas|Sunday Lunch| Mains',
-        nutrition: {
-          calories: 158,
-          fat: 8.7,
-          sugar: 8.9,
-          protein: 8.5,
-          carbs: 12,
-          fibre: 1
-        },
-        ingredients: [
-          '800 g Brussels sprouts',
-          '2 higher-welfare Cumberland sausages',
-          '½ a bunch of fresh sage , (15g)',
-          '20 g unsalted butter',
-          '1 onion',
-          '1 sweet eating apple',
-          '1 tablespoon Worcestershire sauce'
-        ],
-        instructions: [
-          'Trim the Brussels and peel away any tatty outer leaves, halving any larger ones and keeping the smaller ones whole. Cook in a large pan of boiling salted water for 5 minutes, then drain and leave to steam dry. ',
-          'Melt the butter in a large frying pan on a medium-low heat. Pick and add half the sage leaves, cook for 3 minutes, or until crispy, then tip into a small bowl.',
-          'Place the pan back on the heat and squeeze the sausage meat from the skins directly into the pan, breaking it up with the back of a spoon. Cook for 3 to 5 minutes, until golden and crispy, while you peel and finely slice the onion, and pick and finely chop the remaining sage.',
-          'Add the onion and chopped sage to the pan and cook for 5 minutes on a medium-high heat, or until the onions have softened, stirring occasionally.',
-          'Peel and core the apple, then finely dice. Tip into the pan, and add the sprouts too, then add the Worcestershire sauce and toss until hot through.',
-          'Transfer to a serving platter, scatter over the crispy sage leaves, and dig in!'
-        ],
-        notes: 'For a veggie-friendly version, swap the sausages for chopped chestnuts, and use anchovy-free Worcestershire sauce.',
-        key: key,
-        dateCreated: moment().format('MMMM Do YYYY')
-      })
-      console.log('done')
+      // const description = 'Celebrate the humble sprout with this insanely delicious recipe. Crisp cubes of apple provide beautiful sweetness, while sausage – and Worcestershire sauce (my secret ingredient) – gives a contrasting savoury kick. Serve straight from the pan or make ahead and crisp it all up in the oven on the big day – both ways work!'
+      // const key = Math.round(Math.random() * (9999999999 - 20000) + 20000)
+      // const ref = rdb.ref('recipes/' + 'benelwoods' + '/' + key)
+      // ref.set({
+      //   title: 'Best-ever Brussels sprouts',
+      //   desc: description,
+      //   shortDesc: description.substring(0, 50),
+      //   img: 'https://cafedelites.com/wp-content/uploads/2018/05/Honey-Garlic-Pork-Chops-IMAGE-54.jpg',
+      //   servings: 6,
+      //   prepTime: '',
+      //   cookingTime: 30,
+      //   difficulty: 'Not too tricky',
+      //   tags: 'Vegetable|Christmas|Sunday Lunch| Mains',
+      //   nutrition: {
+      //     calories: 158,
+      //     fat: 8.7,
+      //     sugar: 8.9,
+      //     protein: 8.5,
+      //     carbs: 12,
+      //     fibre: 1
+      //   },
+      //   ingredients: [
+      //     '800 g Brussels sprouts',
+      //     '2 higher-welfare Cumberland sausages',
+      //     '½ a bunch of fresh sage , (15g)',
+      //     '20 g unsalted butter',
+      //     '1 onion',
+      //     '1 sweet eating apple',
+      //     '1 tablespoon Worcestershire sauce'
+      //   ],
+      //   instructions: [
+      //     'Trim the Brussels and peel away any tatty outer leaves, halving any larger ones and keeping the smaller ones whole. Cook in a large pan of boiling salted water for 5 minutes, then drain and leave to steam dry. ',
+      //     'Melt the butter in a large frying pan on a medium-low heat. Pick and add half the sage leaves, cook for 3 minutes, or until crispy, then tip into a small bowl.',
+      //     'Place the pan back on the heat and squeeze the sausage meat from the skins directly into the pan, breaking it up with the back of a spoon. Cook for 3 to 5 minutes, until golden and crispy, while you peel and finely slice the onion, and pick and finely chop the remaining sage.',
+      //     'Add the onion and chopped sage to the pan and cook for 5 minutes on a medium-high heat, or until the onions have softened, stirring occasionally.',
+      //     'Peel and core the apple, then finely dice. Tip into the pan, and add the sprouts too, then add the Worcestershire sauce and toss until hot through.',
+      //     'Transfer to a serving platter, scatter over the crispy sage leaves, and dig in!'
+      //   ],
+      //   notes: 'For a veggie-friendly version, swap the sausages for chopped chestnuts, and use anchovy-free Worcestershire sauce.',
+      //   key: key,
+      //   dateCreated: moment().format('MMMM Do YYYY')
+      // })
+      // console.log('done')
     }
     // goToListView (listname) {
     //   this.$router.push({ name: 'ListView', params: { listName: listname } })
@@ -187,7 +187,9 @@ export default {
 
 <style scoped lang="scss">
 .recipe-selector {
-  // display: none;
+  opacity: 0;
+  pointer-events: none;
+  margin-top: 100vh;
   width: 100vw;
   height: 100vh;
   position: absolute;
@@ -195,6 +197,7 @@ export default {
   left: 0;
   background: #fff;
   z-index: 20;
+  transition: all 0.3s ease;
   & > .head {
     position: fixed;
     width: 100%;
@@ -316,6 +319,13 @@ export default {
         }
       }
     }
+  &.isActive {
+    // display: block;
+    opacity: 1;
+    pointer-events: all;
+    // transform: translateY(0);
+    margin-top: 0;
+  }
 }
 
 .settings-btn {
@@ -389,8 +399,9 @@ export default {
 .lists {
   height: 93vh;
   background: #344a5f;
-  overflow-x: hidden;
-  overflow-y: scroll;
+  // overflow-x: hidden;
+  // overflow-y: hidden;
+  overflow: hidden;
   & h2 {
     margin: 0;
     color: #fff;
